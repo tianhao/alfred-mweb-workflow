@@ -21,20 +21,22 @@ find_files(){
     cd "${MDOC_HOME}/docs"
 
     local final_expr="ls -ltr *.md | awk '{print \$9}'"
-    for i in $*
-    do
-        final_expr="${final_expr}| xargs grep -i ${i} | awk -F':' '{print \$1}' | uniq "
-    done
+    if [ $# -gt 0 ];then
+        for i in $*
+        do
+            final_expr="${final_expr}| xargs grep -i ${i} | awk -F':' '{print \$1}' | uniq "
+        done
 
-    # 排序表达式: 统计第一行匹配关键字个数，将匹配个数大的放在前面
-    # 第一步: 输入"文件名",输出"文件名 匹配个数"
-    # 第二步: 按照 "匹配个数" 倒序排序
-    # 第三步: 去掉 "匹配个数" 字段，只保留"文件名"
-    # 由于ls -ltr 是按照编辑时间倒序排序的，所以最终排序等级：标题匹配个数倒序->最后编辑倒序
-    local egrep_expr=$(echo "$*" | sed "s/[[:blank:]]/|/g")
-    local sort_expr="awk '{system(\"egrep -io \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs echo \"\$1)}' | sort -rk 2 | awk '{print \$1}'"
+        # 排序表达式: 统计第一行匹配关键字个数，将匹配个数大的放在前面
+        # 第一步: 输入"文件名",输出"文件名 匹配个数"
+        # 第二步: 按照 "匹配个数" 倒序排序
+        # 第三步: 去掉 "匹配个数" 字段，只保留"文件名"
+        # 由于ls -ltr 是按照编辑时间倒序排序的，所以最终排序等级：标题匹配个数倒序->最后编辑倒序
+        local egrep_expr=$(echo "$*" | sed "s/[[:blank:]]/|/g")
+        local sort_expr="awk '{system(\"egrep -io \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs echo \"\$1)}' | sort -rk 2 | awk '{print \$1}'"
 
-    final_expr="${final_expr} | ${sort_expr}"
+        final_expr="${final_expr} | ${sort_expr}"
+    fi
     # echo "${final_expr}"
     files=`eval "${final_expr}"`
 
