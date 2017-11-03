@@ -74,16 +74,18 @@ output(){
        exit
     fi
     local separator=""
+    local order=0
     for i in ${files}
     do
       printf '%s' ${separator}
       separator=","
       echo "{"
-      echo "\"uid\": \"$i\","
+      echo "\"uid\": \"$order\","
       echo "\"type\": \"file\","
       echo "\"title\": \"`head -1 ${i}`\","
       echo "\"arg\": \"${MDOC_HOME}/docs/$i\""
       echo "}"
+      order=$((order+1))
     done
     echo "]}"
 }
