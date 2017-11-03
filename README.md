@@ -2,6 +2,8 @@
 
 使用前请参照最后一节 "设置环境变量" 配置
 
+[下载](https://github.com/tianhao/alfred-mweb-workflow/raw/master/MWeb.alfredworkflow)
+
 ## "mo [关键字1] [关键字2]..." (搜索&打开文档)
 ![](media/15064049765164/15066106070757.gif)
 
