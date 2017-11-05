@@ -20,7 +20,7 @@ find_files(){
     fi
     cd "${MDOC_HOME}/docs"
 
-    local final_expr="ls -ltr *.md | awk '{print \$9}'"
+    local final_expr="ls -lt *.md | awk '{print \$9}'"
     if [ $# -gt 0 ];then
         for i in $*
         do
@@ -39,30 +39,6 @@ find_files(){
     fi
     # echo "${final_expr}"
     files=`eval "${final_expr}"`
-
-##### 由于执行速度不够，已经由前面排序表达式完成了这个功能，而且只使用了第一个关键字匹配，上面表达式按照最大匹配度排序
-# #把标题带有关键字的文件的移动到前面
-# filesWithKeywordArray=()
-#
-# count=0
-# filesArray=( $files )
-##  echo $1
-##  echo ${filesArray[@]}
-#
-#    for i in ${filesArray[@]}
-#    do
-#   filename=$(head -1 $i)
-#   filename="$(tr [A-Z] [a-z] <<< "$filename")"  #转换大小写
-#   keyword="$(tr [A-Z] [a-z] <<< "$1")"      #转换大小写
-#   if [[ ${filename} == *"$keyword"* ]]; then
-#     filesWithKeywordArray+="$i "
-#     unset filesArray[$count]
-#        fi
-#        let count=count+1
-#    done
-#
-# filesArray=( ${filesWithKeywordArray[@]} ${filesArray[@]} )
-# files=`echo ${filesArray[@]}`
 }
 
 output(){
@@ -74,18 +50,15 @@ output(){
        exit
     fi
     local separator=""
-    local order=0
     for i in ${files}
     do
       printf '%s' ${separator}
       separator=","
       echo "{"
-      echo "\"uid\": \"$order\","
       echo "\"type\": \"file\","
       echo "\"title\": \"`head -1 ${i}`\","
       echo "\"arg\": \"${MDOC_HOME}/docs/$i\""
       echo "}"
-      order=$((order+1))
     done
     echo "]}"
 }
