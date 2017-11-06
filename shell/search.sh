@@ -182,7 +182,7 @@ fi
 if [ ${#keyword_arr[@]} -gt 0 ];then
     for i in ${keyword_arr[@]}
     do
-        final_expr="${final_expr}| xargs grep -le '${i}' | awk -F':' '{print \$1}' | uniq "
+        final_expr="${final_expr}| xargs grep -ile '${i}' | awk -F':' '{print \$1}' | uniq "
     done
 
     # 排序表达式: 统计第一行匹配关键字个数，将匹配个数大的放在前面
