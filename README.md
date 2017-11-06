@@ -3,13 +3,37 @@
 
 使用前请参照最后一节 "设置环境变量" 配置
 
-## "mo [关键字1] [关键字2]..." (搜索&打开文档)
+## 搜索&打开文档
 ![](media/15064049765164/15066106070757.gif)
+
+使用方法:
+
+```
+mo [-t tag1,tag2...] [keyword1] [keyword2]...
+```
+示例
+
+```BASH
+# 不输入任何参数，按最近修改时间排序文档
+mo 
+# 查找有 alfred 关键字的文档
+mo alfred
+# 查找有 alfred 和 workflow 两个关键字的文档
+mo alfred workflow
+# 查找tag含有 TODO 的文档，tag不区分大小写
+mo -t TODO
+# 查找tag同时包含 TODO 和 DONE 的文档, tag之间以,隔开(中文逗号，可以)，但tag名称不能有空格
+mo -t TODO,DONE
+# 查找 tag含有 TODO, 且有alfred 和 workflow 两个关键字的文档
+mo -t TODO alfred workflow
+# -t 如果不是第一个参数 会作为关键字，所以这里查找含有这4个关键字的文档：alfred workflow -t TODO 
+mo alfred workflow -t TODO 
+```
 
 用户可以使用关键字 "mo" 或者自定义快捷键触发 workflow
 
-* mo [关键字1] [关键字2]...
-* hotkey-> [关键字1] [关键字2]...
+* mo [-t tag1,tag2...] [keyword1] [keyword2]...
+* hotkey-> [-t tag1,tag2...] [keyword1] [keyword2]...
 
 功能说明：
 
@@ -18,6 +42,8 @@
 3. 多个关键字用空格隔开，会查找包含所有关键字的文档，不匹配任何关键字或只匹配部分关键字的文档不会展示，方便精准查询；
 4. 选中对应行，回车，会用MWeb app打开该文档；
 5. 关键字不区分大小写，输入"MWeb" 与 "mweb"效果相同。
+6. `-t tag1[,tag2...]` 放在开头可以查找包含tag的文档，tag之间以逗号隔开，tag不区分大小写
+7. `-t tag1[,tag2...]` 放在最前面才有效，目前不支持tag包含空格的情况。
 
 不带关键字，列出所有文档
 
