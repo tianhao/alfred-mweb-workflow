@@ -162,7 +162,7 @@ if [ ${last_input} -eq 1 -a ${end_option} -eq 0 ]; then
     exit
 fi
 
-## 有输入tag选项，按照tag先过滤文档
+## 如果有输入-t参数，过滤文档tag
 if [ ${#tag_arr[@]} -gt 0 ];then
     sql='select id from tag where '
     or_str=""
@@ -175,7 +175,18 @@ if [ ${#tag_arr[@]} -gt 0 ];then
 #    echo ${sql}
     final_expr="sqlite3 \"${MDOC_HOME}/mainlib.db\" \"${sql}\""
 else
-    final_expr="ls -lt *.md | awk '{print \$9}'"
+    final_expr="ls -t *.md"
+fi
+
+# 如果有输入-h参数，过滤文档标题
+# 思路: grep -n 会输出行号，找到符合所有关键字的行，筛选行号=1的文档就可以了
+if [ ${#header_arr[@]} -gt 0 ];then
+    final_expr="${final_expr} | xargs grep -inHe '${header_arr[0]}'"
+    for i in ${header_arr[@]:1}
+    do
+        final_expr="${final_expr} | grep -ie '${i}'"
+    done
+    final_expr="${final_expr} | egrep '^.+\.md\:1\:' | awk -F':' '{print \$1}'"
 fi
 
 # 如果有输入关键字，则用关键字筛选文档，并且按照文档标题匹配度排序
@@ -194,7 +205,9 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
     sort_expr="awk '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs echo \"\$1)}' | sort -rk 2 | awk '{print \$1}'"
     final_expr="${final_expr} | ${sort_expr} "
 fi
-final_expr="${final_expr} | head -20 " # 限制最多输出20条记录
 
+
+final_expr="${final_expr} | head -20 " # 限制最多输出20条记录
+#echo "$final_expr"
 files=`eval "${final_expr}"`
 output_files
