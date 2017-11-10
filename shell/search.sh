@@ -33,21 +33,21 @@ end_char="" # 最后一个参数最后输入的字符
 get_params(){
     while [ $# -gt 0 ]; do
         case "$1" in
-            -t|--tag)
+            -t)
 #                echo "$1"
                 next_input=1
                 last_input=${next_input}
                 shift;;
-            -h|--header)
+            -h)
 #                echo "$1"
                 next_input=2
                 last_input=${next_input}
                 shift;;
-            -c|--category)
+#            -c|--category)
 #                echo "$1"
-                next_input=3
-                last_input=${next_input}
-                shift;;
+#                next_input=3
+#                last_input=${next_input}
+#                shift;;
             *)
 #                echo "$1"
                 str=${1//，/,} # 中文逗号改成英文逗号
@@ -93,6 +93,8 @@ output_tags(){
       separator=","
       echo "{"
       echo "\"title\": \"tag: ${i}\","
+      echo "\"autocomplete\": \"${1}${i},\","
+      echo "\"valid\":\"no\""
       echo "}"
     done
     echo "]}"
@@ -137,10 +139,13 @@ fi
 
 ## 如果当前输入为 tag，且没有结束输入，输出tag列表: 排除已经输入的tag，以当前输入为前缀的tag
 if [ ${last_input} -eq 1 -a ${end_option} -eq 0 ]; then
+    autocomplete=''
     n=${#tag_arr[@]}
     if [ ${n} -eq 0 ];then # 还没有输入任何值
+        autocomplete="$1 "
         sql="select name from tag";
     elif [ "${end_char}" = "," ];then # 已输入若干个值，且最后一个值已确定
+        autocomplete="$1"
         sql="select name from tag where 1=1";
         for i in ${tag_arr[@]}
         do
@@ -148,6 +153,7 @@ if [ ${last_input} -eq 1 -a ${end_option} -eq 0 ]; then
         done
     else       # 已输入若干个值，且最后一个值还没有输入完成
         n=$((n-1))
+        autocomplete="${1%${tag_arr[${n}]}}"
         sql="select name from tag where name like '${tag_arr[@]:$n}%'";
         for i in ${tag_arr[@]:0:${n}}
         do
@@ -158,11 +164,17 @@ if [ ${last_input} -eq 1 -a ${end_option} -eq 0 ]; then
     final_expr="sqlite3 \"${MDOC_HOME}/mainlib.db\" \"${sql}\""
     filtered_tags=`eval "${final_expr}"`
 #    echo ${filtered_tags}
-    output_tags
+    output_tags "${autocomplete}"
     exit
 fi
 
 ## 如果有输入-t参数，过滤文档tag
+## 查询文档SQL:
+##SELECT a.aid FROM tag_article a,article b
+##WHERE a.aid = b.uuid AND
+##  a.rid IN (SELECT id from tag b WHERE b.name LIKE 'TODO' or b.name LIKE 'DONE' )
+##GROUP BY a.aid HAVING count(1) >=2
+##ORDER BY b.dateModif DESC;
 if [ ${#tag_arr[@]} -gt 0 ];then
     sql='select id from tag where '
     or_str=""
@@ -171,7 +183,10 @@ if [ ${#tag_arr[@]} -gt 0 ];then
         sql="${sql} ${or_str} name like '${i}'"
         or_str=or
     done
-    sql="select aid||'.md' from tag_article a,article b where a.aid=b.uuid and a.rid in (${sql}) order by b.dateModif desc";
+    sql="SELECT a.aid||'.md' FROM tag_article a,article b \
+    WHERE a.aid=b.uuid AND a.rid IN (${sql}) \
+    GROUP BY a.aid HAVING count(1)>=${#tag_arr[@]} \
+    ORDER BY b.dateModif desc";
 #    echo ${sql}
     final_expr="sqlite3 \"${MDOC_HOME}/mainlib.db\" \"${sql}\""
 else
@@ -205,7 +220,6 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
     sort_expr="awk '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs echo \"\$1)}' | sort -rk 2 | awk '{print \$1}'"
     final_expr="${final_expr} | ${sort_expr} "
 fi
-
 
 final_expr="${final_expr} | head -20 " # 限制最多输出20条记录
 #echo "$final_expr"
