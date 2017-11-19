@@ -104,24 +104,25 @@ output_tags(){
 # 输出文档列表的函数
 output_files(){
     if [ "${files}" = "" ];then
-       echo "{\"items\":["
-       echo "{"
-       echo "\"title\": \"没有找到符合条件的文档\","
-       echo "}"
-       echo "]}"
-       exit
+        echo "{\"items\":["
+        echo "{"
+        echo "\"title\": \"没有找到符合条件的文档\","
+        echo "}"
+        echo "]}"
+        exit
     fi
     local separator=""
     echo "{\"items\":["
     for i in ${files}
     do
-      printf '%s' ${separator}
-      separator=","
-      echo "{"
-      echo "\"type\": \"file\","
-      echo "\"title\": \"`head -1 ${i}`\","
-      echo "\"arg\": \"${MDOC_HOME}/docs/$i\""
-      echo "}"
+        printf '%s' ${separator}
+        separator=","
+        h="$(head -1 "${i}"|sed 's/"/\\"/g')"
+        echo "{"
+        echo "\"type\": \"file\","
+        echo "\"title\": \"${h}\","
+        echo "\"arg\": \"${MDOC_HOME}/docs/$i\""
+        echo "}"
     done
     echo "]}"
 }
@@ -216,7 +217,7 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
     # 第二步: 按照 "匹配个数" 倒序排序
     # 第三步: 去掉 "匹配个数" 字段，只保留"文件名"
     # 由于ls -lt 是按照编辑时间倒序排序的，所以最终排序等级：标题匹配个数倒序->最后编辑倒序
-    egrep_expr=$(echo "$*" | sed "s/[[:blank:]]/|/g")
+    egrep_expr="$(echo "${keyword_arr[@]}" | sed "s/[[:blank:]]/|/g")"
     sort_expr="awk '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs echo \"\$1)}' | sort -rk 2 | awk '{print \$1}'"
     final_expr="${final_expr} | ${sort_expr} "
 fi
