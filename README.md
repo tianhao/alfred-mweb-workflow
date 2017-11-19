@@ -128,9 +128,9 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 
 ![](media/15064049765164/15111287325474.jpg)
 
-**MARKDOWN_APP(可选)** 默认是 MWeb.app, 用于打开外部文档库时用的，你也可以改成别的App；
-**MARKDONW_PATH(可选)** 是外部文档库的搜索路径，可以配置多个，多个路径之间以**:**隔开，例如: **\${HOME}/working:\${HOME}/blog**
-**MBLOG_URL(可选)** 填上的你Blog地址(如果使用了MWeb的静态博客功能)；
+* **MARKDOWN_APP(可选)** 默认是 MWeb.app, 用于打开外部文档库时用的，你也可以改成别的App；
+* **MARKDONW_PATH(可选)** 是外部文档库的搜索路径，可以配置多个，多个路径之间以``:``隔开，例如: `${HOME}/working:${HOME}/blog`
+* **MBLOG_URL(可选)** 填上的你Blog地址(如果使用了MWeb的静态博客功能)；
 
 3.设置快捷键（可选）
 
