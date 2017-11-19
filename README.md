@@ -94,7 +94,7 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 ## 搜索&打开外部文档
 近期收到Email希望打开外部文档库，所以这次添加了这个功能
 
-* 配置 **MARKDOWN_PATH** 变量，可以配置多个路径，路径之间以**":"**隔开，例如**\${HOME}/working:\${HOME}/blog**
+* 配置 **MARKDOWN_PATH** 变量，可以配置多个路径，路径之间以`:`隔开，例如`${HOME}/working:\${HOME}/blog`
 * 可选配置 **MARKDOWN_APP**,你别就选择其他Markdown App 打开指定文件
 * 使用方法跟打开内部文档一样，只是触发关键字改成了**moe**,还有就是少了tag 过滤功能(-t), `moe [-h keyword1,keyword2,...] [keyword1 keyword2] `
 * **由于每次搜索都会查找路径下所有的 .md 文件，所以目录结构太深或无关文件太多的目录会影响速度(例如复杂项目的源代码目录)，建议集中管理你的文档，以提高搜索效率。**
@@ -104,7 +104,7 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 ![](media/15064049765164/15111309314522.jpg)
 
 ## "mpush" (提交生成的静态博客到远端Git(Hub)
-我用的是GitHub做静态博客，在用MWeb生成网站之后，需要做 git add ...;  git commit ;git push等一序列操作才能把最新文章推送到GitHub，博客才更新，所以做了一个一键push功能
+我用的是GitHub做静态博客，在用MWeb生成网站之后，需要做 `git add ...;  git commit ;git push`等一序列操作才能把最新文章推送到GitHub，博客才更新，所以做了一个一键push功能
 
 使用方法：
 
