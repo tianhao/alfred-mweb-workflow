@@ -92,11 +92,17 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 
 
 ## 搜索&打开外部文档
-近期收到Email希望打开外部文档库，所以这次添加了这个功能
+如果你喜欢使用外部文档，甚至有多个外部文档库，那么这个外部文档库搜索就很重要，它能搜索多个文档目录将最佳匹配且最近更新文档列出来，然后使用你指定的Markdown app(默认是MWeb)打开。
 
-* 配置 **MARKDOWN_PATH** 变量，可以配置多个路径，路径之间以`:`隔开，例如`${HOME}/working:\${HOME}/blog`
-* 可选配置 **MARKDOWN_APP**,你别就选择其他Markdown App 打开指定文件
-* 使用方法跟打开内部文档一样，只是触发关键字改成了**moe**,还有就是少了tag 过滤功能(-t), `moe [-h keyword1,keyword2,...] [keyword1 keyword2] `
+**配置**
+
+* **MARKDOWN_PATH** 变量，可以配置多个路径，路径之间以`:`隔开，例如:`${HOME}/working:${HOME}/blog:${HOME}/fun`
+* **MARKDOWN_APP** 变量,默认是`/Applications/MWeb.app`,你可以设置为其它App。
+
+**使用**
+
+* `moe [-h keyword1,keyword2,...] [keyword1 keyword2] `
+* 使用方法跟打开内部文档一样，只是触发关键字改成了**moe**, 另外没有 tag 过滤功能(-t)，因为外部文档没有tag。
 * **由于每次搜索都会查找路径下所有的 .md 文件，所以目录结构太深或无关文件太多的目录会影响速度(例如复杂项目的源代码目录)，建议集中管理你的文档，以提高搜索效率。**
 
 效果图:
@@ -128,8 +134,8 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 
 ![](media/15064049765164/15111287325474.jpg)
 
-* **MARKDOWN_APP(可选)** 默认是 MWeb.app, 用于打开外部文档库时用的，你也可以改成别的App；
-* **MARKDONW_PATH(可选)** 是外部文档库的搜索路径，可以配置多个，多个路径之间以``:``隔开，例如: `${HOME}/working:${HOME}/blog`
+* **MARKDOWN_PATH** 变量，可以配置多个路径，路径之间以`:`隔开，例如:`${HOME}/working:${HOME}/blog:${HOME}/fun`
+* **MARKDOWN_APP** 变量,默认是`/Applications/MWeb.app`,你可以设置为其它App，设置后会用该App打开外部文档。
 * **MBLOG_URL(可选)** 填上的你Blog地址(如果使用了MWeb的静态博客功能)；
 
 3.设置快捷键（可选）
