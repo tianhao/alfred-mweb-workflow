@@ -6,7 +6,7 @@
 **更新日志**
 
 * [2017年11月20日] 添加外部文档库搜索
-* [2017年11月25日] 修复 [issue-4](https://github.com/tianhao/alfred-mweb-workflow/issues/4) ; 2.提升速度
+* [2017年11月25日] 修复 [issue-4](https://github.com/tianhao/alfred-mweb-workflow/issues/4) ; 提升速度
 
 ## 搜索&打开内部文档
 ![](media/15064049765164/15100051287719.gif)
