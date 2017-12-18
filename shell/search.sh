@@ -1,5 +1,3 @@
-#!/usr/bin/env bash
-
 # 环境变量和目录检查
 if [ -z "${MDOC_HOME}" ];then
    echo "{ \"items\":["
@@ -117,7 +115,7 @@ output_files(){
     do
         printf '%s' ${separator}
         separator=","
-        h="$(head -1 "${i}"|sed 's/"/\\"/g')"
+        h="$(head -1 "${i}"| sed 's/\\/\\\\/g' | sed 's/"/\\"/g')"
         echo "{"
         echo "\"type\": \"file\","
         echo "\"title\": \"${h}\","
