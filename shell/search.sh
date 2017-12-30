@@ -205,10 +205,23 @@ fi
 
 # 如果有输入关键字，则用关键字筛选文档，并且按照文档标题匹配度排序
 if [ ${#keyword_arr[@]} -gt 0 ];then
-    for i in ${keyword_arr[@]}
-    do
-        final_expr="${final_expr}| xargs grep -ile '${i}' | uniq "
-    done
+	
+	if [ ${#tag_arr[@]} -eq 0 ] && [ ${#header_arr[@]} -eq 0 ];then
+		
+		keyword_str=""
+		for i in ${keyword_arr[@]}
+		do
+			keyword_str="${keyword_str} && kMDItemTextContent == \"${i}\""
+		done
+		
+		
+		final_expr="mdfind -onlyin . \"kMDItemContentType == net.daringfireball.markdown ${keyword_str}\""
+	else
+    		for i in ${keyword_arr[@]}
+    		do
+        		final_expr="${final_expr}| xargs grep -ile '${i}' | uniq "
+    		done
+	fi
 
     # 排序表达式: 统计第一行匹配关键字个数，将匹配个数大的放在前面
     # 第一步: 输入"文件名",输出"文件名 匹配个数"
