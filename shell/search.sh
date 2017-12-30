@@ -206,6 +206,7 @@ fi
 # 如果有输入关键字，则用关键字筛选文档，并且按照文档标题匹配度排序
 if [ ${#keyword_arr[@]} -gt 0 ];then
 	
+	#对于不含—t和-h 的查询进行性能优化
 	if [ ${#tag_arr[@]} -eq 0 ] && [ ${#header_arr[@]} -eq 0 ];then
 		
 		keyword_str=""
@@ -214,8 +215,12 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
 			keyword_str="${keyword_str} && kMDItemTextContent == \"${i}\""
 		done
 		
-		
 		final_expr="mdfind -onlyin . \"kMDItemContentType == net.daringfireball.markdown ${keyword_str}\""
+		
+#		#convert absolute path to relative path
+		IFS="/"
+		final_expr="${final_expr} | sed -e 's/\/.*\///g'"
+		unset IFS
 	else
     		for i in ${keyword_arr[@]}
     		do
