@@ -212,10 +212,10 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
 		keyword_str=""
 		for i in ${keyword_arr[@]}
 		do
-			keyword_str="${keyword_str} && kMDItemTextContent == \"${i}\"c"
+			keyword_str="${keyword_str} && kMDItemTextContent == \"*${i}*\"c"
 		done
 		
-		final_expr="mdfind -onlyin . 'kMDItemContentType == net.daringfireball.markdown ${keyword_str}'"
+		final_expr="mdfind -onlyin . 'kMDItemContentType == \"net.daringfireball.markdown\" ${keyword_str}'"
 		
 #		#convert absolute path to relative path
 		IFS="/"
