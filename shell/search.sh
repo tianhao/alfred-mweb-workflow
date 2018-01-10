@@ -212,7 +212,13 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
 		keyword_str=""
 		for i in ${keyword_arr[@]}
 		do
-			keyword_str="${keyword_str} && kMDItemTextContent == \"*${i}*\"c"
+			if [[ "$i" =~ ^[a-zA-Z0-9_\\-]+$ ]]
+			then
+				keyword_str="${keyword_str} && kMDItemTextContent == \"${i}\"c"
+			else
+				keyword_str="${keyword_str} && kMDItemTextContent == \"*${i}*\""
+			fi
+			
 		done
 		
 		final_expr="mdfind -onlyin . 'kMDItemContentType == \"net.daringfireball.markdown\" ${keyword_str}'"
