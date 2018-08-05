@@ -1,4 +1,7 @@
-#!/usr/bin/env bash
+#!/bin/bash
+
+# NOTE: 本脚本要求所有参数用'或"合成一个参数，如 -t TODO 要输入为 '-t TODO' 或 "-t TODO"
+# alfred 会将所有输入作为一个参数，包括末尾的空格
 
 if [ -z "${MARKDOWN_PATH}" ];then
    echo "{ \"items\":[{\"type\": \"error\",\"title\": \"请先设置文档路径 MARKDOWN_PATH \"}]}"
@@ -94,7 +97,8 @@ n=0
 while read line
 do
 #    echo line=${line}
-    h="$(head -1 "${line}"|sed 's/"/\\"/g')"
+    # fix issue-11
+    h="$(head -1 "${line}"| sed 's/\\/\\\\/g;s/"/\\"/g;s/[[:space:]]*$//g')"
     echo "{\"type\": \"file\",\"title\": \"${h}\",\"subtitle\": \"${line}\",\"arg\": \"${line}\"},"
     n=$((n+1))
 done < <(eval "${final_expr}")
