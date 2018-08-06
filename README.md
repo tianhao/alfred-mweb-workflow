@@ -127,11 +127,14 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 ![](media/15064049765164/15111283626588.jpg)
 
 2.打开MWeb偏好设置,复制对应路径到workflow变量中
+
 **MWeb 2的配置**
 * 默认文档位置：
 `${HOME}/Library/Containers/com.coderforart.MWeb/Data/Documents/mainlib/`
 * iCloud 文档位置：
 `${HOME}/Library/Mobile Documents/iCloud~com~coderforart~iOS~MWeb/Documents/mweb_documents_library/`
+* 静态网站保存位置
+`${HOME}/Library/Containers/com.coderforart.MWeb/Data/Documents/themes/Site/`
 ![](media/15064049765164/15111287325474.jpg)
 
 **MWeb 3的配置**
@@ -139,7 +142,8 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 `${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/mainlib/`
 * iCloud 文档位置：
 `${HOME}/Library/Mobile Documents/iCloud~com~coderforart~iOS~MWeb/Documents/mweb_documents_library/`
-
+* 静态网站保存位置
+`${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/themes/Site/`
 ![](media/15335343681756.jpg)
 
 **其它配置**
@@ -149,11 +153,5 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 
 3.设置快捷键（可选）
 
-workflow 默认没有设置 mo 和 mpush 的快捷键，用户可以按照自己的需要设置快捷键
-
+workflow 默认没有设置`mo`、`moe`和`mpush`的快捷键，用户可以按照自己的需要设置快捷键
 ![](media/15064049765164/15111313608850.jpg)
-
-
-
-
-
