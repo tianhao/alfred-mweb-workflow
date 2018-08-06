@@ -128,28 +128,31 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 
 2.打开MWeb偏好设置,复制对应路径到workflow变量中
 
-**MWeb 2的配置**
+**MWeb 2内部文档的配置**
 * 默认文档位置：
 `${HOME}/Library/Containers/com.coderforart.MWeb/Data/Documents/mainlib/`
 * iCloud 文档位置：
 `${HOME}/Library/Mobile Documents/iCloud~com~coderforart~iOS~MWeb/Documents/mweb_documents_library/`
-* 静态网站保存位置
+* 静态博客保存位置
 `${HOME}/Library/Containers/com.coderforart.MWeb/Data/Documents/themes/Site/`
 ![](media/15064049765164/15111287325474.jpg)
 
-**MWeb 3的配置**
+**MWeb 3内部配置**
 * 默认文档位置：
 `${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/mainlib/`
 * iCloud 文档位置：
 `${HOME}/Library/Mobile Documents/iCloud~com~coderforart~iOS~MWeb/Documents/mweb_documents_library/`
-* 静态网站保存位置
+* 静态博客保存位置
 `${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/themes/Site/`
 ![](media/15335343681756.jpg)
 
-**其它配置**
+**外部文档配置**
 * **MARKDOWN_PATH** 变量，外部文档搜索路径，可以配置多个路径，路径之间以`:`隔开，例如:`${HOME}/working:${HOME}/blog:${HOME}/fun`
 * **MARKDOWN_APP** 变量，打开外部文档的App，默认是`/Applications/MWeb.app`,你可以设置为其它App，设置后会用该App打开外部文档。
-* **MBLOG_URL(可选)** 填上的你Blog地址(如果使用了MWeb的静态博客功能)；
+
+**静态博客配置(可选)**
+* **MBLOG_HOME** 填静态博客生成目录；
+* **MBLOG_URL** 填上的你Blog地址(如果使用了MWeb的静态博客功能)；
 
 3.设置快捷键（可选）
 
