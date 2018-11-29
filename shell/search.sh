@@ -13,6 +13,7 @@ if [ -z "${MDOC_HOME}" ];then
    echo "]}"
    exit 1
 fi
+MDOC_HOME=$(eval "echo ${MDOC_HOME}")
 if [ ! -d "${MDOC_HOME}/docs" ];then
    echo "{ \"items\":["
    echo "{"
