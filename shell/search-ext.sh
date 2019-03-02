@@ -1,7 +1,4 @@
-#!/bin/bash
-
-# NOTE: 本脚本要求所有参数用'或"合成一个参数，如 -t TODO 要输入为 '-t TODO' 或 "-t TODO"
-# alfred 会将所有输入作为一个参数，包括末尾的空格
+#!/usr/bin/env bash
 
 if [ -z "${MARKDOWN_PATH}" ];then
    echo "{ \"items\":[{\"type\": \"error\",\"title\": \"请先设置文档路径 MARKDOWN_PATH \"}]}"
@@ -81,7 +78,7 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
     # 第三步: 去掉 "匹配个数" 字段，只保留"文件名"
     # 由于ls -lt 是按照编辑时间倒序排序的，所以最终排序等级：标题匹配个数倒序->最后编辑倒序
     egrep_expr=$(echo "${keyword_arr[@]}" | sed "s/[[:blank:]]/|/g")
-    sort_expr="awk -F'\\n' '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \\\"\"\$1 \"\\\"\` | wc -l | xargs -I\\\"{}\\\" echo \\\"{}\\\" \"\$1)}' | sort -r | cut -d' ' -f 2-"
+    sort_expr="awk -F'\\n' '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \\\"\"\$1 \"\\\"\` | wc -l | xargs -I\\\"{}\\\" echo \\\"{}\\\" \\\"\"\$1\"\\\"\")}' | sort -r | cut -d' ' -f 2-"
     final_expr="${final_expr} | ${sort_expr} "
 else
     # 按时间排序
@@ -91,6 +88,8 @@ fi
 
 final_expr="${final_expr} | head -20" # 取前20个
 
+#echo "${final_expr}"
+#exit
 
 echo "{\"items\":["
 n=0

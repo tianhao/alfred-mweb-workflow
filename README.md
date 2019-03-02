@@ -4,6 +4,7 @@
 使用前请参照最后一节 "设置环境变量" 配置
 
 **更新日志**
+* [2019年03月03日] 修复 [issue-13](https://github.com/tianhao/alfred-mweb-workflow/issues/13)
 * [2018年11月29日] 修复 [issue-12](https://github.com/tianhao/alfred-mweb-workflow/issues/12)
 * [2018年8月5日] 修复 [issue-11](https://github.com/tianhao/alfred-mweb-workflow/issues/11),将script内容移到shell文件，方便调整
 * [2017年12月18日] 修复 [issue-5](https://github.com/tianhao/alfred-mweb-workflow/issues/5)
