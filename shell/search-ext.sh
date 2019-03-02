@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# NOTE: 本脚本要求所有参数用'或"合成一个参数，如 -t TODO 要输入为 '-t TODO' 或 "-t TODO"		
+# alfred 会将所有输入作为一个参数，包括末尾的空格
 if [ -z "${MARKDOWN_PATH}" ];then
    echo "{ \"items\":[{\"type\": \"error\",\"title\": \"请先设置文档路径 MARKDOWN_PATH \"}]}"
    exit 1
