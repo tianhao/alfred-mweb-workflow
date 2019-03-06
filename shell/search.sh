@@ -225,11 +225,12 @@ if [ ${#keyword_arr[@]} -gt 0 ];then
     # 第三步: 去掉 "匹配个数" 字段，只保留"文件名"
     # 由于ls -lt 是按照编辑时间倒序排序的，所以最终排序等级：标题匹配个数倒序->最后编辑倒序
     egrep_expr="$(echo "${keyword_arr[@]}" | sed "s/[[:blank:]]/|/g")"
-    sort_expr="awk '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs -I\\\"{}\\\" echo \\\"{}\\\" \\\"\"\$1\"\\\"\")}' | sort -rk 2 | awk '{print \$1}'"
+    sort_expr="awk '{system(\"egrep -ioe \\\"${egrep_expr}\\\" <<< \`head -1 \"\$1 \"\`|wc -l | xargs -I\\\"{}\\\" echo \\\"{}\\\" \\\"\"\$1\"\\\"\")}' | sort -r | awk '{print \$2}'"
     final_expr="${final_expr} | ${sort_expr} "
 fi
 
 final_expr="${final_expr} | head -20 " # 限制最多输出20条记录
 #echo "$final_expr"
 files=`eval "${final_expr}"`
+#eval "${final_expr}"
 output_files
