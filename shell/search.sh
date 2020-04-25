@@ -198,7 +198,17 @@ if [ ${#tag_arr[@]} -gt 0 ];then
 #    echo ${sql}
     final_expr="sqlite3 \"${MDOC_HOME}/mainlib.db\" \"${sql}\""
 else
-    final_expr="ls -t *.md"
+# 隐藏掉hide标签的文章
+# select uuid || '.md' 
+# from article 
+# where uuid not in 
+# (
+#   SELECT a.aid FROM tag_article a,article b
+#   WHERE a.aid = b.uuid 
+#   AND a.rid IN (SELECT id from tag b WHERE b.name LIKE 'hide')
+# ) 
+# order by dateModif desc
+    final_expr="sqlite3 \"${MDOC_HOME}/mainlib.db\" \"select uuid || '.md' from article where uuid not in (SELECT a.aid FROM tag_article a,article b WHERE a.aid = b.uuid AND a.rid IN (SELECT id from tag b WHERE b.name LIKE 'hide')) order by dateModif desc\""
 fi
 
 # 如果有输入-h参数，过滤文档标题
