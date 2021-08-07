@@ -144,6 +144,8 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 `${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/mainlib/`
 * iCloud 文档位置：
 `${HOME}/Library/Mobile Documents/iCloud~com~coderforart~iOS~MWeb/Documents/mweb_documents_library/`
+* iCloud 文档位置（4.0以上版本）：
+`~/Library/Containers/com.coderforart.MWeb3/Data/Library/Application Support/MWebLibrary`
 * 静态博客保存位置
 `${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/themes/Site/`
 ![](media/15335343681756.jpg)
