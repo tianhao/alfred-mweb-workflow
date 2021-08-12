@@ -148,6 +148,15 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 `${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/themes/Site/`
 ![](media/15335343681756.jpg)
 
+**MWeb 4内部配置**
+* 默认文档位置：
+`${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/mainlib/`
+* iCloud 文档位置：
+`~/Library/Containers/com.coderforart.MWeb3/Data/Library/Application Support/MWebLibrary`
+* 静态博客保存位置
+`${HOME}/Library/Containers/com.coderforart.MWeb3/Data/Documents/themes/Site/`
+![](media/15335343681756.jpg)
+
 **外部文档配置**
 * **MARKDOWN_PATH** 变量，外部文档搜索路径，可以配置多个路径，路径之间以`:`隔开，例如:`${HOME}/working:${HOME}/blog:${HOME}/fun`
 * **MARKDOWN_APP** 变量，打开外部文档的App，默认是`/Applications/MWeb.app`,你可以设置为其它App，设置后会用该App打开外部文档。
