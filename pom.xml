@@ -35,7 +35,7 @@
                 <version>3.1.0</version>
                 <extensions>true</extensions>
                 <configuration>
-                    <launcher>java-utils=me.chenzz.mweb.format/me.chenzz.mweb.alfred.workflow.Main</launcher>
+                    <launcher>java-utils=me.chenzz.mweb.alfred.workflow/me.chenzz.mweb.alfred.workflow.Main</launcher>
                     <noManPages>true</noManPages>
                     <stripDebug>true</stripDebug>
                 </configuration>
