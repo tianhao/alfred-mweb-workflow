@@ -4,6 +4,7 @@
 使用前请参照最后一节 "设置环境变量" 配置
 
 **更新日志**
+* [2021年10月06日] 增加新功能：自动格式化文章标题
 * [2019年03月03日] 修复 [issue-13](https://github.com/tianhao/alfred-mweb-workflow/issues/13)
 * [2018年11月29日] 修复 [issue-12](https://github.com/tianhao/alfred-mweb-workflow/issues/12)
 * [2018年8月5日] 修复 [issue-11](https://github.com/tianhao/alfred-mweb-workflow/issues/11),将script内容移到shell文件，方便调整
@@ -119,6 +120,20 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 4. push完成之后会打开博客地址(用浏览器)
 
 静态博客使用方法请参考 MWeb 官方文档，这里只是做了一键push操作
+
+## "mf" 自动格式化文章的标题前缀
+
+自动格式化文章标题的前缀。
+
+使用方法："mf + 空格 + 关键字" 搜索对应的文章，并选中
+使用效果：如下图所示
+注意事项：如果该功能有bug不幸翻车，修改之前的文章备份在 `/tmp/mweb-format` 目录下可以找到。
+
+* 格式化之前
+![](media/15064049765164/img.png)
+
+* 格式化之后
+![](media/15064049765164/img_1.png)
 
 ## 设置环境变量(必须设置)
 
