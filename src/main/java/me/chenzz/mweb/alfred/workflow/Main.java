@@ -25,7 +25,7 @@ public class Main {
 
         // 先备份一下
         String backupFileName = DateFormatUtils.format(System.currentTimeMillis(), "yyyy年MM月dd日 HH时mm分ss秒");
-        String path = "/tmp/mweb-format/" + backupFileName + ".md";
+        String path = "/tmp/" + backupFileName + ".md";
         FileUtils.writeStringToFile(path, content, "UTF-8");
 
 
