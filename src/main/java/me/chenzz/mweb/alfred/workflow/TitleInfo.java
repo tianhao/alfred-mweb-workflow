@@ -1,4 +1,4 @@
-package me.chenzz.mweb.format;
+package me.chenzz.mweb.alfred.workflow;
 
 public class TitleInfo {
 

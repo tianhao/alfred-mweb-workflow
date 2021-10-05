@@ -1,2 +1,2 @@
-module me.chenzz.mweb.format {
+module me.chenzz.mweb.alfred.workflow {
 }

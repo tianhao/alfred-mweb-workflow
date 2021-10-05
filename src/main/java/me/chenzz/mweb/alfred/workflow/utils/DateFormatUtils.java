@@ -1,4 +1,4 @@
-package me.chenzz.mweb.format.utils;
+package me.chenzz.mweb.alfred.workflow.utils;
 
 import java.text.SimpleDateFormat;
 
