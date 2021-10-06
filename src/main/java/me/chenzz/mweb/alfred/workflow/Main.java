@@ -9,10 +9,15 @@ import me.chenzz.mweb.alfred.workflow.utils.StringUtils;
 
 public class Main {
 
+    /**
+     * 用来标识当前是否在code区域
+     */
+    private static boolean codeArea = false;
+
     public static void main(String[] args) throws IOException {
 
         String pathPrefix = "/Users/chenzz/Library/Containers/com.coderforart.MWeb3/Data/Library/Application Support/MWebLibrary/docs";
-        String fileName = "15018632272245";
+        String fileName = "15051376193683";
         String filePath = pathPrefix + "/" + fileName + ".md";
         if (args.length >= 1 && !StringUtils.isEmpty(args[0])) {
             filePath = args[0];
@@ -65,7 +70,16 @@ public class Main {
                 lineArr[i] = newLine;
             } else {
                 // 如果本行层级 大于 当前的层级
-                TitleInfo titleInfo = titleNoStack.pop();
+
+                // 一直出栈到 本行层级相等的元素
+                // （来应对那种跨级的情况，比如当前处在 4级标题下，下一行是2级标题，如果只出栈一次，则当前的层级还是3级）
+
+                TitleInfo titleInfo = findEqualLevelEle(titleNoStack, titleLevel);
+                if (null == titleInfo) {
+                    throw new RuntimeException("无法找到和当前行层级一致的历史行，解析终止！"
+                            + "问题原因是，文章某个标题出现了比前面标题等级高的情况；解决方案，在文章前面加一个和问题行等级一样的标记。line=" + line);
+                }
+
                 currentNo = titleInfo.getTitleNo();
                 currentTitleLevel = titleInfo.getTitleLevel();
 
@@ -83,6 +97,21 @@ public class Main {
         content = stringBuilder.toString();
 
         FileUtils.writeStringToFile(filePath, content, "UTF-8");
+    }
+
+    private static TitleInfo findEqualLevelEle(Stack<TitleInfo> titleNoStack, int titleLevel) {
+        TitleInfo titleInfo = null;
+
+        while (!titleNoStack.isEmpty()) {
+            TitleInfo tempTitleInfo= titleNoStack.pop();
+            if (!tempTitleInfo.getTitleLevel().equals(titleLevel)) {
+                continue;
+            } else {
+                titleInfo = tempTitleInfo;
+                break;
+            }
+        }
+        return titleInfo;
     }
 
     private static String generateNewLine(int currentNo, Stack<TitleInfo> titleNoStack, String line) {
@@ -126,6 +155,16 @@ public class Main {
         if (StringUtils.isEmpty(line)) {
             return false;
         }
+
+        // 进出code区域
+        if (line.contains("```")) {
+            codeArea = !codeArea;
+        }
+
+        if (codeArea) {
+            return false;
+        }
+
         if (line.startsWith("# ")
                 || line.startsWith("## ")
                 || line.startsWith("### ")
@@ -180,7 +219,10 @@ public class Main {
             if ('#'!= currentChar
                     && ' ' != currentChar
                     && (currentChar < '0' || currentChar > '9')
-                    && '.' != currentChar) {
+                    && '.' != currentChar
+                    && '、' != currentChar
+                    && '）' != currentChar
+                    && ')' != currentChar) {
                 String lineContent = line.substring(i);
                 return lineContent;
             } else {
