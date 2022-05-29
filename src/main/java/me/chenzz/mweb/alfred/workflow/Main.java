@@ -23,6 +23,15 @@ public class Main {
             filePath = args[0];
         }
 
+        boolean topLeveTitleIncrease = true;
+        if (args.length >= 2 && !StringUtils.isEmpty(args[1])) {
+            try {
+                topLeveTitleIncrease = Boolean.parseBoolean(args[1]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
         System.out.println("filePath=" + filePath);
 
 
@@ -36,8 +45,18 @@ public class Main {
 
         String[] lineArr = content.split("\n");
         Integer currentTitleLevel = null;
-        int currentNo = 0;
+
+
+
         Stack<TitleInfo> titleNoStack = new Stack<>();
+
+        Integer topLevelWellNum = getTopLevelTitleWellNum(lineArr);
+        Integer topLevelNum = getTopLevelTitleNum(lineArr, topLevelWellNum);
+
+        int currentNo = 0;
+        if (!topLeveTitleIncrease) {
+            currentNo = topLevelNum + 1;
+        }
 
         for (int i = 0; i < lineArr.length; i++) {
             String line = lineArr[i];
@@ -53,7 +72,13 @@ public class Main {
 
             if (titleLevel == currentTitleLevel) {
                 // 如果本行层级 和 当前的层级一致
-                currentNo++;
+
+                if (needDecrease(topLeveTitleIncrease, currentTitleLevel, topLevelWellNum)) {
+                    currentNo--;
+                } else {
+                    currentNo++;
+                }
+
                 String newLine = generateNewLine(currentNo, titleNoStack, line);
                 lineArr[i] = newLine;
             } else if (titleLevel > currentTitleLevel) {
@@ -83,7 +108,12 @@ public class Main {
                 currentNo = titleInfo.getTitleNo();
                 currentTitleLevel = titleInfo.getTitleLevel();
 
-                currentNo++;
+                if (needDecrease(topLeveTitleIncrease, currentTitleLevel, topLevelWellNum)) {
+                    currentNo--;
+                } else {
+                    currentNo++;
+                }
+
                 String newLine = generateNewLine(currentNo, titleNoStack, line);
                 lineArr[i] = newLine;
             }
@@ -97,6 +127,62 @@ public class Main {
         content = stringBuilder.toString();
 
         FileUtils.writeStringToFile(filePath, content, "UTF-8");
+    }
+
+    private static boolean needDecrease(boolean topLeveTitleIncrease, Integer currentTitleLevel,
+            Integer topLevelWellNum) {
+        return !topLeveTitleIncrease && topLevelWellNum != null && currentTitleLevel == topLevelWellNum;
+    }
+
+    private static Integer getTopLevelTitleNum(String[] lineArr, Integer topLevelWellNum) {
+        // 顶级标题的数量
+        int topLevelTitleNum = 0;
+
+        for (int i = 0; i < lineArr.length; i++) {
+            String line = lineArr[i];
+
+            if (!isTitle(line)) {
+                continue;
+            }
+
+            int wellNum = calWellNum(line);
+            if (topLevelWellNum != null && wellNum == topLevelWellNum) {
+                topLevelTitleNum++;
+            }
+        }
+
+        return topLevelTitleNum;
+    }
+
+    private static Integer getTopLevelTitleWellNum(String[] lineArr) {
+        // 顶级标题的井号数量
+        Integer topLevelWellNum = null;
+        for (int i = 0; i < lineArr.length; i++) {
+            String line = lineArr[i];
+
+            if (!isTitle(line)) {
+                continue;
+            }
+
+            int wellNum = calWellNum(line);
+            if (topLevelWellNum == null || wellNum < topLevelWellNum) {
+                topLevelWellNum = wellNum;
+            }
+        }
+
+        return topLevelWellNum;
+    }
+
+    private static int calWellNum(String line) {
+        int num = 0;
+
+        for (int i = 0; i < line.length(); i++) {
+            if (line.charAt(i) == '#') {
+                num++;
+            }
+        }
+
+        return num;
     }
 
     private static TitleInfo findEqualLevelEle(Stack<TitleInfo> titleNoStack, int titleLevel) {
