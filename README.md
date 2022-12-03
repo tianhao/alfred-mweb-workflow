@@ -4,6 +4,7 @@
 使用前请参照最后一节 "设置环境变量" 配置
 
 **更新日志**
+* [2022年12月03日] 增加新功能：手动git备份
 * [2022年02月10日] 增加新功能：快速笔记
 * [2021年10月06日] 增加新功能：自动格式化文章标题
 * [2019年03月03日] 修复 [issue-13](https://github.com/tianhao/alfred-mweb-workflow/issues/13)
@@ -143,6 +144,20 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 ## 5. "mn" 快速创建笔记
 * ![](media/new.png)
 * ![](media/new2.png)
+
+## 6. "mb" 手动git备份
+### 6.1. 初始化设置
+```shell
+cd ~/Library/Containers/com.coderforart.MWeb3/Data/Library/Application\ Support/MWebLibrary
+git init
+git checkout -b main
+git add .
+git commit -m "first commit"
+git remote add origin 【你申请的git仓库地址】
+git push -u origin main
+```
+### 6.2. 使用
+* ![](media/git-backup.png)
 
 ## 设置环境变量(必须设置)
 
