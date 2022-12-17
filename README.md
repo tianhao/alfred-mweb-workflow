@@ -149,6 +149,9 @@ tag(todo) 和 关键字(pg_) 组合过滤文档
 ### 6.1. 初始化设置
 ```shell
 cd ~/Library/Containers/com.coderforart.MWeb3/Data/Library/Application\ Support/MWebLibrary
+echo 'mainlib.db' >> .gitignore
+echo '/docs/media' >> .gitignore
+echo '/metadata' >> .gitignore
 git init
 git checkout -b main
 git add .
